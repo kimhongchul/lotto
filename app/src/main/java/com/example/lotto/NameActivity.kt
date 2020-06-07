@@ -1,8 +1,11 @@
 package com.example.lotto
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.text.TextUtils
+import kotlinx.android.synthetic.main.activity_name.*
+import java.util.*
 
 class NameActivity : AppCompatActivity() {
 
@@ -10,7 +13,18 @@ class NameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_name)
 
-        Toast.makeText(applicationContext, "NameActivity입니다.", Toast.LENGTH_SHORT).show()
+        goButton.setOnClickListener {
 
+            if(TextUtils.isEmpty(editText.text.toString())) return@setOnClickListener
+
+            val intent = Intent(this, ResultActivity::class.java)
+
+            intent.putIntegerArrayListExtra("result", ArrayList(LottoNumberMaker.getLottoNumbersFromHash(editText.text.toString())))
+            intent.putExtra("name", editText.text.toString())
+            startActivity(intent)
+        }
+        backButton.setOnClickListener {
+            finish()
+        }
     }
 }
